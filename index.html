@@ -4,10 +4,33 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>User Manager</title>
-	<script src="index.js"></script>
-	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="static/styles.css">
 </head>
 <body>
-	
+	<div class="main">
+		<div class="search-container">
+			<p>Search:</p>
+			<input type="text" class="search-input"/>
+			<div class="suggestions-container"></div>
+		</div>
+		<div class="form-container">
+			<p>Add new</p>
+			<form class="add-form">
+				<div>
+					<label>Name:</label>
+					<input type="text" required class="name-input" name="name"/>
+				</div>
+				<div>
+					<label>Age:</label>
+					<input type="number" required class="age-input" name="age"/>
+				</div>
+				<div>
+					<input type="submit" value="Add"/>
+				</div>
+				
+			</form>
+		</div>
+	</div>
+	<script type="module" src="static/index.js"></script>
 </body>
 </html>

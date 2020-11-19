@@ -1,0 +1,29 @@
+.main {
+	display: flex;
+}
+
+.search-container {
+	background-color: gray;
+	padding: 20px;
+}
+
+.form-container {
+	background-color: orange;
+	padding: 20px;
+}
+
+.suggestions-container {
+	background-color: green;
+	position: absolute;
+    width: 153px;
+	border-radius: 0 0 40% 0;
+}
+
+.suggestions-container div {
+	padding: 10px;
+}
+
+
+.age-input {
+	float: right
+}
