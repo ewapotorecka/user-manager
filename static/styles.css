@@ -5,11 +5,21 @@
 .search-container {
 	background-color: gray;
 	padding: 20px;
+	margin: 20px;
 }
 
 .form-container {
 	background-color: orange;
 	padding: 20px;
+	margin: 20px;
+}
+
+.name-input {
+	width: 200px;
+}
+
+.age-input {
+	width: 200px;
 }
 
 .suggestions-container {
@@ -26,4 +36,32 @@
 
 .age-input {
 	float: right
+}
+
+.message-container {
+	position: absolute;
+	display: block;
+	left: 450px;
+	width: 120px;
+
+
+}
+
+.error-message {
+	border-radius: 5px;
+	padding: 10px;
+	margin: 10px;
+	width: 150px;
+	float: right;
+	background-color: red;
+	position: relative;
+}
+
+.success-message {
+	border-radius: 5px;
+	padding: 10px;
+	margin: 10px;
+	width: 100px;
+	float: right;
+	background-color: green;
 }

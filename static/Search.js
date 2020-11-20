@@ -10,14 +10,24 @@ export class Search {
 			const suggestions = this.generateSuggestions( event.target.value );
 			this.renderSuggestions( suggestions );
 		} );
+		document.addEventListener( 'focusin', () => {
+			if ( document.activeElement != this.searchInput ) {
+				this.clearSuggestions();
+				this.searchInput.value = '';
+			}
+		} );
 	}
 
 	generateSuggestions( value ) {
 		const suggestions = [];
 
-		for ( const user of this.users.data.people ) {
-			if ( user.name.toLowerCase().includes( value.toLowerCase() ) ) {
-				suggestions.push( user );
+		if ( value.length == 0 ) {
+			suggestions.push( 'Nothing to find' );
+		} else {
+			for ( const user of this.users.data.people ) {
+				if ( user.name.toLowerCase().includes( value.toLowerCase() ) ) {
+					suggestions.push( user );
+				}
 			}
 		}
 
@@ -26,8 +36,6 @@ export class Search {
 
 	renderSuggestions( suggestions ) {
 		this.clearSuggestions();
-
-		console.log( suggestions)
 
 		if ( suggestions.length === 0 ) {
 			const suggestionElement = this.renderSuggestion();
@@ -42,7 +50,13 @@ export class Search {
 	renderSuggestion( suggestion ) {
 		const suggestionElement = document.createElement( 'DIV' );
 
-		suggestion ? suggestionElement.innerHTML = `${suggestion.name} - ${suggestion.age}` : suggestionElement.innerHTML = 'Nothing found';
+		if ( suggestion ) {
+			typeof( suggestion ) === 'string' ?
+				suggestionElement.innerHTML = suggestion
+				: suggestionElement.innerHTML = `${suggestion.name} - ${suggestion.age}`;
+		} else {
+			suggestionElement.innerHTML = 'Nothing found';
+		}
 
 		return suggestionElement;
 	}
