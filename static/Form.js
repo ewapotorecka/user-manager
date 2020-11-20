@@ -3,8 +3,8 @@ export class Form {
 		this.form = form;
 		this.nameInput = nameInput;
 		this.ageInput = ageInput;
-		this.users = users;
 		this.messageContainer = messageContainer;
+		this.users = users;
 	}
 
 	activate() {
@@ -12,25 +12,27 @@ export class Form {
 			event.preventDefault();
 
 			if ( !this.validateInput( this.nameInput ) || !this.validateInput( this.ageInput ) ) {
-				this.showMessage( 'error' );
+				this.showMessage( 'error', 'ERROR: Name or age not defined' );
 			} else {
 				const user = {
 					name: this.nameInput.value,
 					age: this.ageInput.value
-				}
+				};
+
 				this.addNewUser( user )
 					.then( () => {
 						this.clearForm();
-						this.showMessage( 'success' );
+						this.showMessage( 'success', 'SUCCESS: Added to DB' );
+					} )
+					.catch( ( error ) => {
+						this.showMessage( 'error', error.message );
 					} );
-
 			}
-
 		} );
 	}
 
-	async addNewUser( user ) {
-		this.users.addUser( user );
+	addNewUser( user ) {
+		return this.users.addUser( user );
 	}
 
 	clearForm() {
@@ -46,19 +48,19 @@ export class Form {
 		}
 	}
 
-	showMessage( type ) {
+	showMessage( type, content ) {
 		const message = document.createElement( 'DIV' );
+
+		message.innerHTML = content;
 
 		if ( type == 'error' ) {
 			message.setAttribute( 'class', 'error-message' );
-			message.innerText = 'ERROR: Name or age not defined';
 		} else if ( type = 'success' ) {
 			message.setAttribute( 'class', 'success-message' );
-			message.innerText = 'SUCCESS: Added to DB';
 		}
 
 		this.messageContainer.appendChild( message );
-		setTimeout( () => this.messageContainer.removeChild( message ), 4000 );
+		setTimeout( () => this.messageContainer.removeChild( message ), 5000 );
 	}
 }
 

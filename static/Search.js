@@ -8,6 +8,7 @@ export class Search {
 	activate() {
 		this.searchInput.addEventListener( 'input', ( event ) => {
 			const suggestions = this.generateSuggestions( event.target.value );
+
 			this.renderSuggestions( suggestions );
 		} );
 		document.addEventListener( 'focusin', () => {
@@ -21,7 +22,7 @@ export class Search {
 	generateSuggestions( value ) {
 		const suggestions = [];
 
-		if ( value.length == 0 ) {
+		if ( value.length === 0 ) {
 			suggestions.push( 'Nothing to find' );
 		} else {
 			for ( const user of this.users.data.people ) {
@@ -64,7 +65,4 @@ export class Search {
 	clearSuggestions() {
 		this.suggestionsContainer.innerHTML = '';
 	}
-
-
-
 }

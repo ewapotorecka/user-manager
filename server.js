@@ -5,11 +5,10 @@ const path = require( 'path' );
 const rateLimit = require( 'express-rate-limit' );
 
 const limiter = rateLimit( {
-	windowMs: 1 * 10 * 1000,
+	windowMs: 1 * 5 * 1000,
 	max: 1,
 	message: 'Too many requests, wait 5 seconds'
 } );
-
 
 const db = {
 	people: [
@@ -25,7 +24,6 @@ const db = {
 app.use( '/static', express.static( './static/' ) );
 app.use( '/api/db/add', limiter );
 app.use( express.json() );
-
 
 app.get( '/', ( request, response ) => {
 	response.sendFile( path.resolve( 'index.html' ), err => {
@@ -53,8 +51,6 @@ app.post( '/api/db/add', ( request, response ) => {
 		}
 	}
 } );
-
-
 
 app.listen( port, () => {
 	console.log( 'Server is listening on port 3000' );

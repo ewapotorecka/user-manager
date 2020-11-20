@@ -1,21 +1,27 @@
 export class Users {
-	constructor() {
-	}
-
-	async loadData() {
-		fetch( '/api/db' )
+	loadData() {
+		return fetch( '/api/db' )
 			.then( response => response.json() )
-			.then( data => { this.data = data } )
+			.then( data => this.data = data )
 			.catch( error => console.log( error ) )
 	}
 
-	async addUser( newUser ) {
-		fetch( '/api/db/add', {
+	addUser( newUser ) {
+		return fetch( '/api/db/add', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify( newUser )
 		} )
 			.then( response => {
+				if ( !response.ok ) {
+					if ( response.status == 429 ) {
+						console.error( `Can not add ${ newUser.name } to database, too many requests. Wait 5 seconds.`);
+						throw new Error( `Can not add ${ newUser.name } to database, too many requests. Wait 5 seconds.` );
+					} else {
+						console.error( response.statusText );
+						throw new Error( response.statusText );
+					}
+				}
 				if ( response.ok ) {
 					this.data.people.push( newUser );
 					console.log( `Added ${ newUser.name } to database`)
