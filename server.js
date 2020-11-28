@@ -33,12 +33,21 @@ app.get( '/', ( request, response ) => {
 	} );
 } );
 
-app.get( '/api/db', ( request, response ) => {
-	response.send( db ), err => {
-		if ( err ) {
-			throw err;
+app.get( '/api/users/:query', ( request, response )  => {
+	let result = [];
+
+	for ( const user of db.people ) {
+		if ( user.name.toLowerCase().includes( request.params.query.toLowerCase() ) ) {
+			result.push( user );
 		}
 	}
+
+	response.send( result ), err => {
+		if ( err ) {
+			throw err
+		}
+	}
+
 } );
 
 app.post( '/api/db/add', ( request, response ) => {

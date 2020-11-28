@@ -1,17 +1,19 @@
 export class Form {
-	constructor( form, nameInput, ageInput, messageContainer, users ) {
+	constructor( form, nameInput, ageInput, messageContainer ) {
 		this.form = form;
 		this.nameInput = nameInput;
 		this.ageInput = ageInput;
 		this.messageContainer = messageContainer;
-		this.users = users;
 	}
 
 	activate() {
 		this.form.addEventListener( 'submit', ( event ) => {
 			event.preventDefault();
 
-			if ( !this.validateInput( this.nameInput ) || !this.validateInput( this.ageInput ) ) {
+			// separated validation for nameInput and ageInput
+			if ( !this.validateInput( this.nameInput ) ) {
+				this.showMessage( 'error', 'ERROR: Name or age not defined' );
+			} else if ( !this.validateInput( this.ageInput ) ) {
 				this.showMessage( 'error', 'ERROR: Name or age not defined' );
 			} else {
 				const user = {
@@ -30,9 +32,27 @@ export class Form {
 			}
 		} );
 	}
-
+	// added fetch instead of using users class
 	addNewUser( user ) {
-		return this.users.addUser( user );
+		return fetch( '/api/db/add', {
+			method: 'post',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify( user )
+			} )
+			.then( response => {
+				if ( !response.ok ) {
+					if ( response.status == 429 ) {
+						console.error( `Can not add ${ user.name } to database, too many requests. Wait 5 seconds.`);
+						throw new Error( `Can not add ${ user.name } to database, too many requests. Wait 5 seconds.` );
+					} else {
+						console.error( response.statusText );
+						throw new Error( response.statusText );
+					}
+				}
+				if ( response.ok ) {
+					console.log( `Added ${ user.name } to database`)
+				}
+			} );
 	}
 
 	clearForm() {

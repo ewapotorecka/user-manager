@@ -9,11 +9,8 @@ const searchInput = document.querySelector( '.search-input' );
 const suggestionsContainer = document.querySelector( '.suggestions-container' );
 const messageContainer = document.querySelector( '.message-container' );
 
-const users = new Users();
-const form = new Form( addForm, nameInput, ageInput, messageContainer, users );
-const search = new Search( searchInput, suggestionsContainer, users );
+const form = new Form( addForm, nameInput, ageInput, messageContainer );
+const search = new Search( searchInput, suggestionsContainer );
 
-users.loadData().then( () => {
-	form.activate();
-	search.activate();
-} );
+form.activate();
+search.activate();

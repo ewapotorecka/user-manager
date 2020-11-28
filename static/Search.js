@@ -1,15 +1,13 @@
 export class Search {
-	constructor( searchInput, suggestionsContainer, users ) {
+	constructor( searchInput, suggestionsContainer ) {
 		this.searchInput = searchInput;
 		this.suggestionsContainer = suggestionsContainer;
-		this.users = users;
 	}
 
 	activate() {
 		this.searchInput.addEventListener( 'input', ( event ) => {
-			const suggestions = this.generateSuggestions( event.target.value );
-
-			this.renderSuggestions( suggestions );
+			this.generateSuggestions( event.target.value )
+				.then( suggestions => this.renderSuggestions( suggestions ) );
 		} );
 		document.addEventListener( 'focusin', () => {
 			if ( document.activeElement != this.searchInput ) {
@@ -19,20 +17,16 @@ export class Search {
 		} );
 	}
 
+	// Changed generating suggestions to fetch
 	generateSuggestions( value ) {
-		const suggestions = [];
-
 		if ( value.length === 0 ) {
-			suggestions.push( 'Nothing to find' );
-		} else {
-			for ( const user of this.users.data.people ) {
-				if ( user.name.toLowerCase().includes( value.toLowerCase() ) ) {
-					suggestions.push( user );
-				}
-			}
-		}
+			return Promise.resolve( [ 'Nothing to find' ] )
 
-		return suggestions;
+		} else {
+			return fetch( `/api/users/${ value }` )
+				.then( response => response.json() )
+				.catch( error => console.log( error ) )
+		}
 	}
 
 	renderSuggestions( suggestions ) {
