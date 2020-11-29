@@ -17,7 +17,6 @@ export class Search {
 		} );
 	}
 
-	// Changed generating suggestions to fetch
 	generateSuggestions( value ) {
 		if ( value.length === 0 ) {
 			return Promise.resolve( [ 'Nothing to find' ] )

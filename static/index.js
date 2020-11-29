@@ -1,6 +1,5 @@
 import { Form } from './Form.js';
 import { Search } from './Search.js';
-import { Users } from './Users.js';
 
 const addForm = document.querySelector( '.add-form' );
 const nameInput = document.querySelector( '.name-input' );

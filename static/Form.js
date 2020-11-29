@@ -10,7 +10,6 @@ export class Form {
 		this.form.addEventListener( 'submit', ( event ) => {
 			event.preventDefault();
 
-			// separated validation for nameInput and ageInput
 			if ( !this.validateInput( this.nameInput ) ) {
 				this.showMessage( 'error', 'ERROR: Name or age not defined' );
 			} else if ( !this.validateInput( this.ageInput ) ) {
@@ -32,7 +31,7 @@ export class Form {
 			}
 		} );
 	}
-	// added fetch instead of using users class
+
 	addNewUser( user ) {
 		return fetch( '/api/db/add', {
 			method: 'post',
